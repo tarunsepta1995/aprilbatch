@@ -29,6 +29,6 @@ jobs:
       - name: Assignment Task
         run: |
           mkdir folder1
-          cd folder1 | touch file1.txt 
+          cd folder1 | echo "test" > file1.txt 
           cd .. | mkdir folder2
           cp ./folder1/file1.txt ./folder2/
