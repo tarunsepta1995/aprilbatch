@@ -16,4 +16,4 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   call-template:
-    uses: /tarunsepta1995/actions-templates/.github/workflows/reuse-test.yml@v1
+    uses: tarunsepta1995/actions-templates/.github/workflows/reuse-test.yml@v1
