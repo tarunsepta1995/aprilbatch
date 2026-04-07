@@ -10,7 +10,7 @@ resource "aws_eks_cluster" "eks_cluster" {
   role_arn = "arn:aws:iam::980637429038:role/AmazonEKSAutoNodeRole"
 
   vpc_config {
-    subnet_ids = ["subnet-0ef199d7f17c4e3f2"]
+    subnet_ids = ["subnet-0ef199d7f17c4e3f2", "subnet-065e64e60fd24c32a"]
   }
 
   tags = {
