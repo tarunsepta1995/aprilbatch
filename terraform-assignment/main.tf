@@ -1,14 +1,15 @@
-resource "aws_ecr_repository" "ecr_repository" {
+module "aws_ecr" {
+  source = "./modules/aws_ecr"
   name = "example-ecr-repository"
   tags = {
     "Name" = "ExampleECRRepository"
   }
 }
 
-resource "aws_iam_role" "eks_role" {
+module "aws_iam" {
+  source = "./modules/aws_iam"
   name = "example-eks-role"
-
-  assume_role_policy = jsonencode({
+  role_policy = {
     Version = "2012-10-17"
     Statement = [
       {
@@ -19,26 +20,22 @@ resource "aws_iam_role" "eks_role" {
         Action = "sts:AssumeRole"
       }
     ]
-  })
-}
-
-resource "aws_iam_policy_attachment" "eks_role_attachment" {
-  name       = "example-eks-role-attachment"
-  roles      = [aws_iam_role.eks_role.name]
+  }
+  policy_name = "example-eks-role-attachment"
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  policy_roles = [aws_iam_role.eks_role.name]
 }
 
-resource "aws_eks_cluster" "eks_cluster" {
-  name     = "example-eks-cluster"
-  role_arn = aws_iam_role.eks_role.arn
 
-  vpc_config {
+module "aws_eks" {
+  source = "./modules/aws_eks"
+  name = "example-eks-cluster"
+  role_arn = aws_iam_role.eks_role.arn
+  vpc_config = {
     subnet_ids = data.aws_subnets.default.ids
   }
-
-  depends_on = [ aws_iam_policy_attachment.eks_role_attachment ]
   tags = {
     "Name" = "ExampleEKSCluster"
   }
-
+  dependency = [ aws_iam_policy_attachment.eks_role_attachment]
 }
