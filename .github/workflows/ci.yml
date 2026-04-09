@@ -24,8 +24,8 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Build Docker image
-        run: docker build -t demo-app ./demo-app
-
+        run: docker build -t demo-app ./java-docker-example
+        
       - name: Log in to AWS ECR
         uses: aws-actions/amazon-ecr-login@v2
 
