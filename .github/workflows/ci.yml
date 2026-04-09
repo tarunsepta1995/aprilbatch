@@ -25,12 +25,12 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t demo-app ./java-docker-example
-        
+
       - name: Log in to AWS ECR
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Tag the Docker image
-        run: docker tag demo-app 980637429038.dkr.ecr.ap-south-1.amazonaws.com/demo-app:${{ github.run_number }}
+        run: docker tag demo-app 980637429038.dkr.ecr.ap-south-1.amazonaws.com/demo-app:tarun.0.${{ github.run_number }}
 
       - name: Push Docker image to AWS ECR
-        run: docker push 980637429038.dkr.ecr.ap-south-1.amazonaws.com/demo-app:${{ github.run_number }}
+        run: docker push 980637429038.dkr.ecr.ap-south-1.amazonaws.com/demo-app:tarun.0.${{ github.run_number }}
