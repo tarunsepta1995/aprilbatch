@@ -1,0 +1,40 @@
+name: Deployment Workflow to EKS
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'latest'
+
+      - name: Update kubeconfig
+        run: |
+          aws eks update-kubeconfig --region ap-south-1 --name demo-eks-cluster1
+
+      - name: Deploy latest version to EKS
+        run: |
+          IMAGE_TAG=tarun.0.${{ github.run_number }}
+          kubectl set image deployment/java-docker-example java-app=980637429038.dkr.ecr.ap-south-1.amazonaws.com/demo-app:${IMAGE_TAG} -n default
+          kubectl rollout status deployment/java-docker-example -n default
+    
+      - name: Verify deployment
+        run: |
+            kubectl get pods -n default
+            kubectl get services -n default

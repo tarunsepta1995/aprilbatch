@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: java-app
-          image: 980637429038.dkr.ecr.ap-south-1.amazonaws.com/demo-app:latest
+          image: 980637429038.dkr.ecr.ap-south-1.amazonaws.com/demo-app:tarun.0.3
           ports:
             - containerPort: 8081
       restartPolicy: Always
