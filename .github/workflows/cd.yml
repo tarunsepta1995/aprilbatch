@@ -30,7 +30,7 @@ jobs:
 
       - name: Deploy latest version to EKS
         run: |
-          IMAGE_TAG=tarun.0.${{ github.run_number }}
+          IMAGE_TAG=tarun
           kubectl set image deployment/java-docker-example java-app=980637429038.dkr.ecr.ap-south-1.amazonaws.com/demo-app:${IMAGE_TAG} -n default
           kubectl rollout status deployment/java-docker-example -n default
     
